@@ -21,4 +21,6 @@ public class ApplicationUser : IdentityUser
     public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
     
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+    
+    public virtual ICollection<Review> ReceivedReviews { get; set; } = new List<Review>();
 }

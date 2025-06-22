@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PropretyRental")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d25cf69fb83918c9ec6000fb1f0af8c087df361")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5228abc5c64eafa2aeb36ae4ba3b7c97be71ec05")]
 [assembly: System.Reflection.AssemblyProductAttribute("PropretyRental")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PropretyRental")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

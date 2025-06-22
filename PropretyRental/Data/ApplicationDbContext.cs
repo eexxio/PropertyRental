@@ -13,6 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Property> Properties { get; set; }
     public DbSet<Booking> Bookings { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -46,6 +47,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                   .WithOne(b => b.Tenant)
                   .HasForeignKey(b => b.TenantId)
                   .OnDelete(DeleteBehavior.Restrict);
+                  
+            entity.HasMany(e => e.ReceivedReviews)
+                  .WithOne(r => r.Host)
+                  .HasForeignKey(r => r.HostId)
+                  .OnDelete(DeleteBehavior.Restrict);
         });
 
         builder.Entity<Booking>(entity =>
@@ -68,6 +74,31 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             entity.HasIndex(e => e.Status);
             entity.HasIndex(e => e.StartDate);
             entity.HasIndex(e => e.EndDate);
+        });
+
+        builder.Entity<Review>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            
+            entity.HasOne(e => e.Booking)
+                  .WithMany()
+                  .HasForeignKey(e => e.BookingId)
+                  .OnDelete(DeleteBehavior.Cascade);
+                  
+            entity.HasOne(e => e.Guest)
+                  .WithMany()
+                  .HasForeignKey(e => e.GuestId)
+                  .OnDelete(DeleteBehavior.Restrict);
+                  
+            entity.HasOne(e => e.Host)
+                  .WithMany()
+                  .HasForeignKey(e => e.HostId)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(e => e.BookingId).IsUnique();
+            entity.HasIndex(e => e.GuestId);
+            entity.HasIndex(e => e.HostId);
+            entity.HasIndex(e => e.StarRating);
         });
     }
 }
