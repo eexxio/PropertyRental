@@ -27,7 +27,7 @@ public class PropertyDto
     public string ZipCode { get; set; } = string.Empty;
     
     [Range(0, double.MaxValue)]
-    public decimal PricePerMonth { get; set; }
+    public decimal PricePerNight { get; set; }
     
     [Range(0, int.MaxValue)]
     public int Bedrooms { get; set; }
@@ -42,7 +42,25 @@ public class PropertyDto
     
     public DateTime DateListed { get; set; }
     
-    public DateTime? DateRented { get; set; }
+    public int MaxGuests { get; set; }
+    
+    public int MinStayNights { get; set; }
+    
+    public int MaxStayNights { get; set; }
+    
+    public TimeSpan CheckInTime { get; set; }
+    
+    public TimeSpan CheckOutTime { get; set; }
+    
+    public bool HasWifi { get; set; }
+    
+    public bool HasParking { get; set; }
+    
+    public bool HasKitchen { get; set; }
+    
+    public bool HasWasher { get; set; }
+    
+    public bool HasAirConditioning { get; set; }
     
     public string OwnerName { get; set; } = string.Empty;
 }

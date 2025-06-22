@@ -29,8 +29,9 @@ public class PropertiesController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10,
         [FromQuery] string? city = null,
-        [FromQuery] decimal? minPrice = null,
-        [FromQuery] decimal? maxPrice = null,
+        [FromQuery] decimal? minPricePerNight = null,
+        [FromQuery] decimal? maxPricePerNight = null,
+        [FromQuery] int? maxGuests = null,
         [FromQuery] int? bedrooms = null,
         [FromQuery] bool? isAvailable = null,
         [FromQuery] string sortBy = "DateListed",
@@ -47,14 +48,19 @@ public class PropertiesController : ControllerBase
                 query = query.Where(p => p.City.ToLower().Contains(city.ToLower()));
             }
 
-            if (minPrice.HasValue)
+            if (minPricePerNight.HasValue)
             {
-                query = query.Where(p => p.PricePerMonth >= minPrice.Value);
+                query = query.Where(p => p.PricePerNight >= minPricePerNight.Value);
             }
 
-            if (maxPrice.HasValue)
+            if (maxPricePerNight.HasValue)
             {
-                query = query.Where(p => p.PricePerMonth <= maxPrice.Value);
+                query = query.Where(p => p.PricePerNight <= maxPricePerNight.Value);
+            }
+
+            if (maxGuests.HasValue)
+            {
+                query = query.Where(p => p.MaxGuests >= maxGuests.Value);
             }
 
             if (bedrooms.HasValue)
@@ -70,8 +76,8 @@ public class PropertiesController : ControllerBase
             query = sortBy.ToLower() switch
             {
                 "price" => sortOrder.ToLower() == "asc" 
-                    ? query.OrderBy(p => p.PricePerMonth) 
-                    : query.OrderByDescending(p => p.PricePerMonth),
+                    ? query.OrderBy(p => p.PricePerNight) 
+                    : query.OrderByDescending(p => p.PricePerNight),
                 "city" => sortOrder.ToLower() == "asc" 
                     ? query.OrderBy(p => p.City) 
                     : query.OrderByDescending(p => p.City),
@@ -97,13 +103,22 @@ public class PropertiesController : ControllerBase
                     Address = p.Address,
                     City = p.City,
                     ZipCode = p.ZipCode,
-                    PricePerMonth = p.PricePerMonth,
+                    PricePerNight = p.PricePerNight,
                     Bedrooms = p.Bedrooms,
                     Bathrooms = p.Bathrooms,
                     SquareFootage = p.SquareFootage,
                     IsAvailable = p.IsAvailable,
                     DateListed = p.DateListed,
-                    DateRented = p.DateRented,
+                    MaxGuests = p.MaxGuests,
+                    MinStayNights = p.MinStayNights,
+                    MaxStayNights = p.MaxStayNights,
+                    CheckInTime = p.CheckInTime,
+                    CheckOutTime = p.CheckOutTime,
+                    HasWifi = p.HasWifi,
+                    HasParking = p.HasParking,
+                    HasKitchen = p.HasKitchen,
+                    HasWasher = p.HasWasher,
+                    HasAirConditioning = p.HasAirConditioning,
                     OwnerName = $"{p.Owner.FirstName} {p.Owner.LastName}"
                 })
                 .ToListAsync();
@@ -140,13 +155,22 @@ public class PropertiesController : ControllerBase
                     Address = p.Address,
                     City = p.City,
                     ZipCode = p.ZipCode,
-                    PricePerMonth = p.PricePerMonth,
+                    PricePerNight = p.PricePerNight,
                     Bedrooms = p.Bedrooms,
                     Bathrooms = p.Bathrooms,
                     SquareFootage = p.SquareFootage,
                     IsAvailable = p.IsAvailable,
                     DateListed = p.DateListed,
-                    DateRented = p.DateRented,
+                    MaxGuests = p.MaxGuests,
+                    MinStayNights = p.MinStayNights,
+                    MaxStayNights = p.MaxStayNights,
+                    CheckInTime = p.CheckInTime,
+                    CheckOutTime = p.CheckOutTime,
+                    HasWifi = p.HasWifi,
+                    HasParking = p.HasParking,
+                    HasKitchen = p.HasKitchen,
+                    HasWasher = p.HasWasher,
+                    HasAirConditioning = p.HasAirConditioning,
                     OwnerName = $"{p.Owner.FirstName} {p.Owner.LastName}"
                 })
                 .FirstOrDefaultAsync();
@@ -187,10 +211,20 @@ public class PropertiesController : ControllerBase
                 Address = createPropertyDto.Address,
                 City = createPropertyDto.City,
                 ZipCode = createPropertyDto.ZipCode,
-                PricePerMonth = createPropertyDto.PricePerMonth,
+                PricePerNight = createPropertyDto.PricePerNight,
                 Bedrooms = createPropertyDto.Bedrooms,
                 Bathrooms = createPropertyDto.Bathrooms,
                 SquareFootage = createPropertyDto.SquareFootage,
+                MaxGuests = createPropertyDto.MaxGuests,
+                MinStayNights = createPropertyDto.MinStayNights,
+                MaxStayNights = createPropertyDto.MaxStayNights,
+                CheckInTime = createPropertyDto.CheckInTime,
+                CheckOutTime = createPropertyDto.CheckOutTime,
+                HasWifi = createPropertyDto.HasWifi,
+                HasParking = createPropertyDto.HasParking,
+                HasKitchen = createPropertyDto.HasKitchen,
+                HasWasher = createPropertyDto.HasWasher,
+                HasAirConditioning = createPropertyDto.HasAirConditioning,
                 IsAvailable = createPropertyDto.IsAvailable,
                 OwnerId = userId,
                 DateListed = DateTime.UtcNow
@@ -210,13 +244,22 @@ public class PropertiesController : ControllerBase
                     Address = p.Address,
                     City = p.City,
                     ZipCode = p.ZipCode,
-                    PricePerMonth = p.PricePerMonth,
+                    PricePerNight = p.PricePerNight,
                     Bedrooms = p.Bedrooms,
                     Bathrooms = p.Bathrooms,
                     SquareFootage = p.SquareFootage,
                     IsAvailable = p.IsAvailable,
                     DateListed = p.DateListed,
-                    DateRented = p.DateRented,
+                    MaxGuests = p.MaxGuests,
+                    MinStayNights = p.MinStayNights,
+                    MaxStayNights = p.MaxStayNights,
+                    CheckInTime = p.CheckInTime,
+                    CheckOutTime = p.CheckOutTime,
+                    HasWifi = p.HasWifi,
+                    HasParking = p.HasParking,
+                    HasKitchen = p.HasKitchen,
+                    HasWasher = p.HasWasher,
+                    HasAirConditioning = p.HasAirConditioning,
                     OwnerName = $"{p.Owner.FirstName} {p.Owner.LastName}"
                 })
                 .FirstAsync();
@@ -261,10 +304,20 @@ public class PropertiesController : ControllerBase
             property.Address = updatePropertyDto.Address;
             property.City = updatePropertyDto.City;
             property.ZipCode = updatePropertyDto.ZipCode;
-            property.PricePerMonth = updatePropertyDto.PricePerMonth;
+            property.PricePerNight = updatePropertyDto.PricePerNight;
             property.Bedrooms = updatePropertyDto.Bedrooms;
             property.Bathrooms = updatePropertyDto.Bathrooms;
             property.SquareFootage = updatePropertyDto.SquareFootage;
+            property.MaxGuests = updatePropertyDto.MaxGuests;
+            property.MinStayNights = updatePropertyDto.MinStayNights;
+            property.MaxStayNights = updatePropertyDto.MaxStayNights;
+            property.CheckInTime = updatePropertyDto.CheckInTime;
+            property.CheckOutTime = updatePropertyDto.CheckOutTime;
+            property.HasWifi = updatePropertyDto.HasWifi;
+            property.HasParking = updatePropertyDto.HasParking;
+            property.HasKitchen = updatePropertyDto.HasKitchen;
+            property.HasWasher = updatePropertyDto.HasWasher;
+            property.HasAirConditioning = updatePropertyDto.HasAirConditioning;
             property.IsAvailable = updatePropertyDto.IsAvailable;
 
             await _context.SaveChangesAsync();
@@ -280,13 +333,22 @@ public class PropertiesController : ControllerBase
                     Address = p.Address,
                     City = p.City,
                     ZipCode = p.ZipCode,
-                    PricePerMonth = p.PricePerMonth,
+                    PricePerNight = p.PricePerNight,
                     Bedrooms = p.Bedrooms,
                     Bathrooms = p.Bathrooms,
                     SquareFootage = p.SquareFootage,
                     IsAvailable = p.IsAvailable,
                     DateListed = p.DateListed,
-                    DateRented = p.DateRented,
+                    MaxGuests = p.MaxGuests,
+                    MinStayNights = p.MinStayNights,
+                    MaxStayNights = p.MaxStayNights,
+                    CheckInTime = p.CheckInTime,
+                    CheckOutTime = p.CheckOutTime,
+                    HasWifi = p.HasWifi,
+                    HasParking = p.HasParking,
+                    HasKitchen = p.HasKitchen,
+                    HasWasher = p.HasWasher,
+                    HasAirConditioning = p.HasAirConditioning,
                     OwnerName = $"{p.Owner.FirstName} {p.Owner.LastName}"
                 })
                 .FirstAsync();

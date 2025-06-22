@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PropretyRental.Data;
 
@@ -10,9 +11,11 @@ using PropretyRental.Data;
 namespace PropretyRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250622160747_AddBookingSystem")]
+    partial class AddBookingSystem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -257,13 +260,6 @@ namespace PropretyRental.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TotalGuests")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EndDate");
@@ -296,12 +292,6 @@ namespace PropretyRental.Migrations
                     b.Property<int>("Bedrooms")
                         .HasColumnType("INTEGER");
 
-                    b.Property<TimeSpan>("CheckInTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<TimeSpan>("CheckOutTime")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -310,43 +300,22 @@ namespace PropretyRental.Migrations
                     b.Property<DateTime>("DateListed")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DateRented")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("HasAirConditioning")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("HasKitchen")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("HasParking")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("HasWasher")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("HasWifi")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsAvailable")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MaxGuests")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MaxStayNights")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MinStayNights")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("PricePerNight")
+                    b.Property<decimal>("PricePerMonth")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -371,11 +340,9 @@ namespace PropretyRental.Migrations
 
                     b.HasIndex("IsAvailable");
 
-                    b.HasIndex("MaxGuests");
-
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("PricePerNight");
+                    b.HasIndex("PricePerMonth");
 
                     b.ToTable("Properties");
                 });

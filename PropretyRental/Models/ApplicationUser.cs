@@ -19,4 +19,6 @@ public class ApplicationUser : IdentityUser
     public DateTime DateRegistered { get; set; } = DateTime.UtcNow;
     
     public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
+    
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }
